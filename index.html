@@ -201,7 +201,7 @@
             transition: 0.2s;
         }
         .cert-modal-close:hover { color: white; transform: scale(1.2); }
-        @media (max-width: 600px) { .cert-modal-box iframe { height: 320px; } }
+        @media (max-width: 600px) { .cert-modal-box iframe { height: 60vh; } }
 
     </style>
 </head>
@@ -574,14 +574,30 @@
     </div>
 </section>
 
+
+    <!-- Resume Modal -->
+    <div class="cert-modal-overlay" id="resumeModal" onclick="closeResumeModal(event)">
+        <div class="cert-modal-box" style="max-width:900px;">
+            <button class="cert-modal-close" onclick="closeResumeModal()">&times;</button>
+            <h3 style="text-align:center;margin-bottom:1rem;color:var(--accent-blue);">&#128196; Prabhu V &mdash; Resume</h3>
+            <iframe src="https://drive.google.com/file/d/1PGpJSUrbBnxxbAmvImEH4dSi_lCIhg95/preview"
+                    style="width:100%;height:80vh;border:none;border-radius:12px;" allow="autoplay"></iframe>
+            <div style="text-align:center;margin-top:1rem;">
+                <a href="https://drive.google.com/uc?export=download&id=1PGpJSUrbBnxxbAmvImEH4dSi_lCIhg95"
+                   class="btn" target="_blank" rel="noopener noreferrer" style="margin:auto;">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg>
+                    Download Resume
+                </a>
+            </div>
+        </div>
+    </div>
+
 <footer>&copy; 2026 Prabhu V. All rights reserved.</footer>
 
 <script>
     // Embed resume as base64 for direct download
-    const resumeB64 = "";
-
     function downloadResume() {
-        window.open('https://drive.google.com/uc?export=download&id=1PGpJSUrbBnxxbAmvImEH4dSi_lCIhg95', '_blank');
+        openResumeModal();
     }
 
     const sections = document.querySelectorAll("section");
@@ -612,6 +628,18 @@
         },
 
     };
+
+    function openResumeModal() {
+        document.getElementById('resumeModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeResumeModal(e) {
+        if (!e || e.target === document.getElementById('resumeModal') || e.currentTarget.classList.contains('cert-modal-close')) {
+            document.getElementById('resumeModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
     function openCertModal(key) {
         const cert = certData[key];
         document.getElementById('certModalTitle').innerHTML = cert.title;
@@ -636,7 +664,10 @@
         }
     }
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeCertModal();
+        if (e.key === 'Escape') {
+            closeCertModal();
+            closeResumeModal();
+        }
     });
 
 </script>
